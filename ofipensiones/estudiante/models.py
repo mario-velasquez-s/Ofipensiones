@@ -1,6 +1,5 @@
 from django.db import models
 
-from acudiente.models import Acudiente
 
 class Estudiante(models.Model):
     nombre = models.CharField(max_length=50)
@@ -8,7 +7,7 @@ class Estudiante(models.Model):
     fechaNacimiento = models.DateField()
     codigo = models.IntegerField()
     estado = models.CharField(max_length=50)
-    acudiente = models.ForeignKey(Acudiente, on_delete=models.CASCADE, default=None)    
+      
 
 
     def __str__(self):
