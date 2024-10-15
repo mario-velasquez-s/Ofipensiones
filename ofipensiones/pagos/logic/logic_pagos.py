@@ -12,3 +12,8 @@ def get_pago(pago_pk):
 def get_pago_estudiante(id_estudiante):
     pagos = Pagos.objects.filter(estudiante=id_estudiante)
     return pagos
+
+def create_pagos(form):
+    pagos = form.save()
+    pagos.save()
+    return()

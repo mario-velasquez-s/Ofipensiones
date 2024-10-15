@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
+from .forms import PagosForm
 from .logic import logic_pagos as lp
 from django.core import serializers
+from django.urls import reverse
 import json
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,3 +23,14 @@ def pagos_view(request):
             pagos = serializers.serialize('json', pagos_dto)
             return HttpResponse(pagos, 'application/json')
     
+def pagos_create(request):
+    if request.method == 'POST':
+        form = PagosForm(request.POST)
+        if form.is_valid():
+            lp.create_pagos(form)
+            messages.add_message(request, messages.SUCCESS, 'Pago create successful')
+            return HttpResponseRedirect(reverse('pagosCreate'))
+        else:
+            print(form.errors)
+    else:
+        form = PagosForm()
