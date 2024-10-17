@@ -29,8 +29,8 @@ def pagos_create(request):
         if form.is_valid():
             lp.create_pagos(form)
             messages.add_message(request, messages.SUCCESS, 'Pago create successful')
-            return HttpResponseRedirect(reverse('pagosCreate'))
+            return HttpResponseRedirect(reverse('pagos_view'))
         else:
             print(form.errors)
-    else:
-        form = PagosForm()
+    return HttpResponse('Metodo no permitido',status=405)
+    

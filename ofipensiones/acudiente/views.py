@@ -11,7 +11,7 @@ from django.urls import reverse
 @csrf_exempt
 def acudiente_view(request):
     if request.method == 'GET':
-        acudientes = la.get_acudientes
+        acudientes = la.get_acudientes()
         acudientes_dto = serializers.serialize('json', acudientes)
         return HttpResponse(acudientes_dto, 'application/json')
     
@@ -25,5 +25,5 @@ def acudiante_create(request):
             return HttpResponseRedirect(reverse('estudianteCreate'))
         else:
             print(form.errors)
-    else:
-        form = AcudienteForm()
+    
+    
