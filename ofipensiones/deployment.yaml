@@ -110,7 +110,7 @@ resources:
           sudo pip3 install django psycopg2-binary social-auth-app-django
           sudo mkdir /labs
           cd /labs
-          sudo git clone https://github.com/Juaneslot01/Ofipensiones.git
+          sudo git clone https://github.com/mario-velasquez-s/Ofipensiones.git
           cd Ofipensiones/ofipensiones
           sudo pip3 install -r requirements.txt
           sudo python3 manage.py makemigrations
