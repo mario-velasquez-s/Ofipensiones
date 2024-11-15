@@ -4,6 +4,6 @@ from . import views
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
-    path('pagos', views.pagos_view, name='pagos_view'),
-    path('pagoscreate/',csrf_exempt(views.pagos_create),name='pagosCreate')
+    path('', views.pagos_view, name='pagos_view'),
+    path('create/', views.pagos_create, name='pagos_create'),
 ]
