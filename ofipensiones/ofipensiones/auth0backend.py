@@ -55,3 +55,23 @@ def getRole(request):
         if role is None:
             role = 'Sin Rol'
     return role
+
+def get_email(request):
+    user = request.user
+    if not user.is_authenticated:
+        return None
+    auth0user = user.social_auth.filter(provider='auth0')[0]
+    access_token = auth0user.extra_data['access_token']
+    url = 'https://dev-bpug7ykjkhxfsz7r.us.auth0.com/userinfo'
+    headers = {'authorization': 'Bearer ' + access_token}
+    resp = requests.get(url, headers=headers)
+    userinfo = resp.json()
+
+    # Agregar impresión para depuración si es necesario
+    print("Userinfo:", userinfo)
+
+    # Obtener el correo de forma segura
+    email = userinfo.get('email', None)
+    if email is None:
+        email = 'Sin correo disponible'
+    return email

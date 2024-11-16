@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from ofipensiones.auth0backend import getRole
+from ofipensiones.auth0backend import getRole, get_email
 from .forms import PagosForm
 from .logic import logic_pagos as lp
 from django.core import serializers
@@ -14,7 +14,10 @@ import json
 @csrf_exempt
 def pagos_view(request):
     role = getRole(request)
-    if role == "Administrador de Pagos":
+    email = get_email(request)
+    
+    # Verificar si el usuario es administrador o tiene el correo permitido
+    if role == "Administrador de Pagos" or email == "rector@colegio.com":
         if request.method == 'GET':
             pagos_dto = lp.get_pagos()
             pagos = serializers.serialize('json', pagos_dto)
@@ -27,7 +30,10 @@ def pagos_view(request):
 @login_required
 def pagos_create(request):
     role = getRole(request)
-    if role == "Administrador de Pagos":
+    email = get_email(request)
+    
+    # Verificar si el usuario es administrador o tiene el correo permitido
+    if role == "Administrador de Pagos" or email == "rector@colegio.com":
         if request.method == 'POST':
             form = PagosForm(request.POST)
             if form.is_valid():
