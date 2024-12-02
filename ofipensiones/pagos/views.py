@@ -7,8 +7,10 @@ from django.core import serializers
 from django.urls import reverse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 @csrf_exempt
 def pagos_view(request):
     if request.method == 'GET':
@@ -23,6 +25,8 @@ def pagos_view(request):
             pagos = serializers.serialize('json', pagos_dto)
             return HttpResponse(pagos, 'application/json')
     
+@login_required
+@csrf_exempt
 def pagos_create(request):
     if request.method == 'POST':
         form = PagosForm(request.POST)
