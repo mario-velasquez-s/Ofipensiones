@@ -9,12 +9,6 @@ from .forms import PagosForm
 from .logic import logic_pagos as lp
 from django.core import serializers
 import json
-<<<<<<< HEAD
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-
-=======
->>>>>>> 1875596cd70af87c17b27b60893856cce4c85f6d
 
 @login_required
 @csrf_exempt
@@ -28,19 +22,6 @@ def pagos_view(request):
             pagos_dto = lp.get_pagos()
             pagos = serializers.serialize('json', pagos_dto)
             return HttpResponse(pagos, 'application/json')
-<<<<<<< HEAD
-    
-@login_required
-@csrf_exempt
-def pagos_create(request):
-    if request.method == 'POST':
-        form = PagosForm(request.POST)
-        if form.is_valid():
-            lp.create_pagos(form)
-            messages.add_message(request, messages.SUCCESS, 'Pago create successful')
-            return HttpResponseRedirect(reverse('pagos_view'))
-=======
->>>>>>> 1875596cd70af87c17b27b60893856cce4c85f6d
         else:
             return HttpResponse('Método no permitido', status=405)
     else:
