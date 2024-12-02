@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Integraciones Contables</h1>
+  <ul>
+    {% for integracion in integraciones_list %}
+      <li>{{ integracion.codigoIntegracion }} - {{ integracion.estudiante }} - Paz y Salvo: {{ integracion.paz_y_salvo }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
