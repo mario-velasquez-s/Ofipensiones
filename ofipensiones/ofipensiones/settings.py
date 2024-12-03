@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c9gk@77_d20x0xhzxm7n#&(a4m3qz*5*z7i%h=b$klaw5m=c)e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.16.108.153', '34.55.35.232', '34.0.0.0', '34.66.12.185', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['34.121.11.237', '34.16.108.153', '34.55.35.232', '34.0.0.0', '34.66.12.185', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -138,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = "/login/auth0"
 LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "https://dev-bpug7ykjkhxfsz7r.us.auth0.com/v2/logout?returnTo=http%3A%2F%2F34.16.108.153%3A8080"
+LOGOUT_REDIRECT_URL = "https://dev-bpug7ykjkhxfsz7r.us.auth0.com/v2/logout?returnTo=http%3A%2F%2F34.121.11.237%3A8080"
 
 SOCIAL_AUTH_TRAILING_SLASH = False  # Remove trailing slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = 'dev-bpug7ykjkhxfsz7r.us.auth0.com'
