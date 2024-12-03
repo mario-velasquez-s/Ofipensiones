@@ -1,19 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .forms import IntegracionContableForm
-from .logic import logic_integraciones as li
-from ofipensiones.auth0backend import getRole
-
-@login_required
-def integraciones_list(request):
-    role = getRole(request)
-    if role in ["Administrador Contable", "Usuario Paz y Salvo"]:
+trador Contable" or role == "Usuario Paz y Salvo":
         integraciones = li.get_integraciones()
         context = {'integraciones_list': integraciones}
-        return render(request, 'integraciones_contables/integraciones_list.html', context)
+        return render(request, 'integraciones_contables/integraciones_list.ht>
     else:
         return HttpResponse('Acceso denegado', status=403)
 
@@ -23,7 +11,6 @@ def integracion_create(request):
     if role == "Administrador Contable":
         if request.method == 'POST':
             form = IntegracionContableForm(request.POST)
-            if form.is_valid():
                 li.create_integracion(form)
                 messages.success(request, 'Integración creada exitosamente')
                 return HttpResponseRedirect(reverse('integraciones_list'))
@@ -31,6 +18,6 @@ def integracion_create(request):
                 print(form.errors)
         else:
             form = IntegracionContableForm()
-        return render(request, 'integraciones_contables/integracion_create.html', {'form': form})
+        return render(request, 'integraciones_contables/integracion_create.ht>
     else:
         return HttpResponse('Acceso denegado', status=403)

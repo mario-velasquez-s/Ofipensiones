@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c9gk@77_d20x0xhzxm7n#&(a4m3qz*5*z7i%h=b$klaw5m=c)e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.16.108.153', '34.55.35.232', '34.0.0.0', '34.66.12.185', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = '['34.55.35.232', '34.0.0.0', '34.66.12.185', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -156,7 +156,3 @@ AUTHENTICATION_BACKENDS = (
     'ofipensiones.auth0backend.Auth0',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = {
-    'audience': 'https://ofipensiones/api'
-}

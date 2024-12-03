@@ -1,0 +1,94 @@
+import requests
+from social_core.backends.oauth import BaseOAuth2
+import jwt
+import json
+from django.conf import settings
+
+class Auth0(BaseOAuth2):
+    """Auth0 OAuth authentication backend"""
+    name = 'auth0'
+    SCOPE_SEPARATOR = ' '
+    ACCESS_TOKEN_METHOD = 'POST'
+    EXTRA_DATA = [
+        ('picture', 'picture'),
+        ('email', 'email'),
+    ]
+
+    def authorization_url(self):
+        return "https://" + self.setting('DOMAIN') + "/authorize"
+
+    def access_token_url(self):
+        return "https://" + self.setting('DOMAIN') + "/oauth/token"
+
+    def get_user_id(self, details, response):
+        """Return current user id."""
+        return details['user_id']
+
+    def get_user_details(self, response):
+        """Return user details from Auth0 account"""
+        access_token = response.get('access_token')
+        response = self.get_json('https://' + self.setting('DOMAIN') + '/userinfo', params={
+            'access_token': access_token
+        })
+        return {
+            'username': response.get('nickname'),
+            'first_name': response.get('name'),
+            'picture': response.get('picture'),
+            'user_id': response.get('sub'),
+            'email': response.get('email'),
+        }
+
+# Función para obtener el rol del usuario
+def getRole(request):
+    user = request.user
+    if not user.is_authenticated:
+        return None
+    auth0user = user.social_auth.filter(provider='auth0')[0]
+    accessToken = auth0user.extra_data['access_token']
+
+    # Decodificar el Access Token
+    issuer = 'https://' + settings.SOCIAL_AUTH_AUTH0_DOMAIN + '/'
+    jwks = requests.get(issuer + '.well-known/jwks.json').json()
+    unverified_header = jwt.get_unverified_header(accessToken)
+
+    rsa_key = {}
+    for key in jwks['keys']:
+	print(key)
+        if key['kid'] == unverified_header['kid']:
+            rsa_key = {
+                'kty': key['kty'],
+                'kid': key['kid'],
+                'use': key['use'],
+                'n': key['n'],
+                'e': key['e']
+            }
+    if rsa_key:
+        try:
+            payload = jwt.decode(
+                accessToken,
+                key=jwt.algorithms.RSAAlgorithm.from_jwk(json.dumps(rsa_key)),
+                audience=settings.SOCIAL_AUTH_AUTH0_API_AUDIENCE,
+                issuer=issuer,
+                algorithms=['RS256']
+            )
+        except Exception:
+            return None
+
+        # Obtener los roles del payload
+        namespace = 'https://' + settings.SOCIAL_AUTH_AUTH0_DOMAIN + '/'
+        roles = payload.get(namespace + 'roles', [])
+        if roles:
+            return roles[0]  # Asumiendo que el usuario tiene un solo rol
+        else:
+            return None
+    else:
+        return None
+
+# ofipensiones/auth0backend.py
+
+def get_email(request):
+    user = request.user
+    if not user.is_authenticated:
+        return None
+    return user.email
+

@@ -10,6 +10,7 @@ from ofipensiones.auth0backend import getRole
 @login_required
 def integraciones_list(request):
     role = getRole(request)
+    integraciones_contables/views.py
     if role in ["Administrador Contable", "Usuario Paz y Salvo"]:
         integraciones = li.get_integraciones()
         context = {'integraciones_list': integraciones}
