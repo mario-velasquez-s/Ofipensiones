@@ -1,0 +1,37 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}
+Integraciones Contables
+{% endblock %}
+
+{% block content %}
+<h1>Integraciones Contables</h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Código de Integración</th>
+            <th>Fecha de Generación</th>
+            <th>Estudiante</th>
+            <th>Acudiente</th>
+            <th>Paz y Salvo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for integracion in integraciones_list %}
+        <tr>
+            <td>{{ integracion.codigoIntegracion }}</td>
+            <td>{{ integracion.fechaGeneracion }}</td>
+            <td>{{ integracion.estudiante.nombre }}</td>
+            <td>{{ integracion.acudiente.nombre }}</td>
+            <td>{{ integracion.paz_y_salvo|yesno:"Sí,No" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hay integraciones contables disponibles.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

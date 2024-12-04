@@ -39,11 +39,6 @@ class Auth0(BaseOAuth2):
         }
 
 # Función para obtener el rol del usuario
-import requests
-import json
-import jwt
-from django.conf import settings
-
 # ofipensiones/auth0backend.py
 
 import requests
@@ -67,6 +62,8 @@ def getRole(request):
     if not access_token:
         print("Access token not found")
         return None
+
+    #print(access_token) 
 
     issuer = 'https://' + settings.SOCIAL_AUTH_AUTH0_DOMAIN + '/'
     jwks_url = issuer + '.well-known/jwks.json'
@@ -101,10 +98,12 @@ def getRole(request):
     except Exception as e:
         print(f"Error decoding token: {e}")
         return None
+    
+    #print(payload)
 
     # Retrieve roles from the payload
     namespace = 'https://' + settings.SOCIAL_AUTH_AUTH0_DOMAIN + '/'
-    roles = payload.get(f"{namespace}roles", [])
+    roles = payload.get("permissions", [])
     print(f"Roles obtained from token: {roles}")
 
     if roles:
